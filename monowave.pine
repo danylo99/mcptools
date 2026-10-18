@@ -1,0 +1,157 @@
+//@version=6
+indicator("Neely Cash Data - Adaptive Speed Baseline (Configurable Multiplier)", overlay = true, max_lines_count = 500)
+
+// -----------------------------------------------------------------------------
+// 1. TIMEFRAME AUTO-DETECTION
+// -----------------------------------------------------------------------------
+int chartInMinutes = timeframe.isseconds ? 1 : 
+                      timeframe.isminutes ? timeframe.multiplier : 
+                      timeframe.isdaily ? 1440 : 
+                      timeframe.isweekly ? 10080 : 
+                      timeframe.ismonthly ? 43200 : 1440
+
+string autoTf = chartInMinutes <= 5   ? "60"   : // <= 5min -> 1h
+               chartInMinutes < 60   ? "240"  : // < 1h    -> 4h
+               chartInMinutes < 240  ? "1D"   : // < 4h    -> 1d
+               chartInMinutes < 1440 ? "1W"   : // < 1d    -> 1w
+                                       "1M"     // >= 1d   -> 1m
+
+// -----------------------------------------------------------------------------
+// 2. INPUTS
+// -----------------------------------------------------------------------------
+bool   useAutoTF   = input.bool(true,        title = "Auto Detect Timeframe Period", group = "Timeframe Selection")
+string manualTF    = input.timeframe("D",    title = "Manual Timeframe",             group = "Timeframe Selection")
+
+color  upColor     = input.color(color.lime, title = "Fast Up Color",   group = "Visuals")
+color  downColor   = input.color(color.red,  title = "Fast Down Color", group = "Visuals")
+color  slowColor   = input.color(color.blue, title = "Slow Color",      group = "Visuals")
+int    lineWidth   = input.int(2,            title = "Line Width",      group = "Visuals")
+
+// Adaptive Speed Sensitivity Settings
+int    speedMaLen  = input.int(10,           title = "Speed Moving Average (N Waves)", minval = 1, group = "Adaptive Speed Settings",
+                                            tooltip = "Number of recent completed monowaves used to calculate the rolling average speed.")
+
+float  speedMult   = input.float(0.2,        title = "Average Speed Multiplier Threshold", minval = 0.05, maxval = 2.0, step = 0.05, group = "Adaptive Speed Settings",
+                                            tooltip = "Threshold = (Rolling Avg Speed) * Multiplier. Waves slower than this cutoff turn Blue.")
+
+string activeTF = useAutoTF ? autoTf : manualTF
+
+// -----------------------------------------------------------------------------
+// 3. HELPER FUNCTIONS
+// -----------------------------------------------------------------------------
+// Calculates Speed = Price Range / Bars Elapsed
+f_calcSpeed(int x1, float y1, int x2, float y2) =>
+    int timeDiff = math.abs(x2 - x1)
+    float priceDiff = math.abs(y2 - y1)
+    // Convert timestamp difference (ms) to bar units
+    float barsDiff = timeDiff / (timeframe.multiplier * 60 * 1000)
+    barsDiff > 0 ? (priceDiff / barsDiff) : 0.0
+
+// -----------------------------------------------------------------------------
+// 4. CASH DATA & ADAPTIVE SPEED PROCESSING
+// -----------------------------------------------------------------------------
+bool isNewTF = timeframe.change(activeTF)
+
+var int   currHighTime = na
+var float currHighVal  = na
+var int   currLowTime  = na
+var float currLowVal   = na
+
+// Store bar open/close to check polarity on timeframe completion
+var float currOpenVal  = na
+var float currCloseVal = na
+
+var int   lastPointTime = na
+var float lastPointVal  = na
+
+// Rolling array storing speeds of the last N completed monowaves
+var float[] speedHistory = array.new_float()
+
+if isNewTF
+    int   pHighTime = currHighTime
+    float pHighVal  = currHighVal
+    int   pLowTime  = currLowTime
+    float pLowVal   = currLowVal
+    float pOpenVal  = currOpenVal
+    float pCloseVal = currCloseVal
+
+    currHighVal  := high
+    currHighTime := time
+    currLowVal   := low
+    currLowTime  := time
+    currOpenVal  := open
+    currCloseVal := close
+
+    if not na(pHighTime) and not na(pLowTime)
+        // Determine whether High or Low comes first
+        bool highFirst = false
+        if pHighTime < pLowTime
+            highFirst := true
+        else if pLowTime < pHighTime
+            highFirst := false
+        else
+            // If high and low occur at the exact same time point, check bar polarity
+            // Bearish bar: High at first, then Low | Bullish bar: Low at first, then High
+            highFirst := pCloseVal < pOpenVal
+
+        int   firstTime  = highFirst ? pHighTime : pLowTime
+        float firstVal   = highFirst ? pHighVal  : pLowVal
+        int   secondTime = highFirst ? pLowTime  : pHighTime
+        float secondVal  = highFirst ? pLowVal   : pHighVal
+
+        if na(lastPointTime)
+            lastPointTime := firstTime
+            lastPointVal  := firstVal
+
+        // Array of coordinate pairs for the two period segments
+        int[]   xCoords = array.new_int()
+        float[] yCoords = array.new_float()
+        array.push(xCoords, lastPointTime)
+        array.push(yCoords, lastPointVal)
+        array.push(xCoords, firstTime)
+        array.push(yCoords, firstVal)
+        array.push(xCoords, secondTime)
+        array.push(yCoords, secondVal)
+
+        for s = 0 to 1
+            int x1 = array.get(xCoords, s)
+            float y1 = array.get(yCoords, s)
+            int x2 = array.get(xCoords, s + 1)
+            float y2 = array.get(yCoords, s + 1)
+
+            // Prevent rendering zero-length time segment lines if timestamps match
+            if x1 != x2 or y1 != y2
+                int segDir = y2 >= y1 ? 1 : -1
+                float segSpeed = f_calcSpeed(x1, y1, x2, y2)
+
+                // Calculate threshold: (Rolling Average Speed) * Multiplier
+                float avgSpeed = array.size(speedHistory) > 0 ? array.avg(speedHistory) : 0.0
+                float speedThreshold = avgSpeed * speedMult
+
+                // Assign color based on softened threshold
+                color lineColor = slowColor
+                if array.size(speedHistory) == 0 or segSpeed >= speedThreshold
+                    lineColor := segDir == 1 ? upColor : downColor
+
+                // Draw line segment
+                line.new(x1 = x1, y1 = y1, x2 = x2, y2 = y2, 
+                         xloc = xloc.bar_time, color = lineColor, width = lineWidth)
+
+                // Update rolling speed memory array (maintain maximum size = speedMaLen)
+                array.push(speedHistory, segSpeed)
+                if array.size(speedHistory) > speedMaLen
+                    array.shift(speedHistory)
+
+        lastPointTime := secondTime
+        lastPointVal  := secondVal
+
+else
+    if high >= currHighVal or na(currHighVal)
+        currHighVal  := high
+        currHighTime := time
+
+    if low <= currLowVal or na(currLowVal)
+        currLowVal  := low
+        currLowTime := time
+    
+    currCloseVal := close
