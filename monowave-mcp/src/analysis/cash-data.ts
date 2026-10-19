@@ -26,6 +26,27 @@ function autoDetectTF(chartInMinutes: number): string {
   return "M";
 }
 
+const MS_DAY = 86_400_000;
+const MS_WEEK = 7 * MS_DAY;
+// Monday 00:00:00 UTC (1970-01-05) as the weekly boundary epoch.
+// Bybit W candles open Monday 00:00 UTC, matching TradingView's
+// timeframe.change("W") boundaries for crypto symbols.
+const MONDAY_EPOCH = 4 * MS_DAY;
+
+// Maps a bar timestamp to the calendar-aligned period bucket of the
+// operational timeframe, instead of anchoring the grid to the first bar.
+function periodIndexOf(time: number, opTf: string, opTfMinutes: number): number {
+  if (opTf === "1M" || opTf === "M") {
+    const d = new Date(time);
+    return d.getUTCFullYear() * 12 + d.getUTCMonth();
+  }
+  if (opTf === "1W" || opTf === "W") {
+    return Math.floor((time - MONDAY_EPOCH) / MS_WEEK);
+  }
+  // Daily, hourly and minute timeframes align to 00:00 UTC boundaries.
+  return Math.floor(time / (opTfMinutes * 60 * 1000));
+}
+
 function calcSpeed(
   x1: number, y1: number,
   x2: number, y2: number,
@@ -51,8 +72,6 @@ export function processCashData(
   const chartInMinutes = timeframeToMinutes(timeframe);
   const opTfStr = autoDetectTF(chartInMinutes);
   const opTfMinutes = timeframeToMinutes(opTfStr);
-  const periodMs = opTfMinutes * 60 * 1000;
-  const firstBarTime = bars.length > 0 ? bars[0].time : 0;
 
   let currHighTime: number | null = null;
   let currHighVal: number | null = null;
@@ -76,7 +95,7 @@ export function processCashData(
 
   for (let i = 0; i < bars.length; i++) {
     const bar = bars[i];
-    const periodIndex = Math.floor((bar.time - firstBarTime) / periodMs);
+    const periodIndex = periodIndexOf(bar.time, opTfStr, opTfMinutes);
 
     const isNewTF = prevPeriodIndex === null || periodIndex > prevPeriodIndex;
 
