@@ -57,7 +57,17 @@ npm run build
 node dist/index.js
 ```
 
-The server listens on **stdin/stdout** using the MCP stdio transport. It does not expose an HTTP port.
+The server listens on **stdin/stdout** using the MCP stdio transport.
+
+### SSE/HTTP server (for Cloud Run)
+
+```bash
+PORT=3000 node dist/sse-index.js
+```
+
+Starts an Express HTTP server with SSE transport on port `3000`:
+- `GET /sse` — establishes the SSE stream
+- `POST /messages?sessionId=<id>` — sends messages
 
 ### Development with hot reload
 
@@ -65,7 +75,7 @@ The server listens on **stdin/stdout** using the MCP stdio transport. It does no
 npm run dev
 ```
 
-### Docker
+### Docker (local)
 
 ```bash
 docker compose build
@@ -75,6 +85,82 @@ docker compose up
 ---
 
 ## Deploying to Production
+
+### Deploying to Google Cloud Run via CI/CD
+
+The server supports two transports:
+- **stdio** (default) — local subprocess, used by `node dist/index.js`
+- **SSE over HTTP** — deployed behind Cloud Run, used by `node dist/sse-index.js`
+
+When deployed to Cloud Run, the container starts an Express HTTP server with:
+- `GET /sse` — establishes the Server-Sent Events stream
+- `POST /messages?sessionId=<id>` — sends messages to the server
+
+Cloud Run manages the container as a regular HTTP service — it handles scaling, health checks, and HTTPS.
+
+#### 1. CI/CD pipeline (GitHub Actions → GCR → Cloud Run)
+
+Create `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [main]
+
+env:
+  PROJECT_ID: YOUR_PROJECT_ID
+  SERVICE_NAME: monowave-mcp
+  REGION: us-central1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Docker auth
+        run: gcloud auth configure-docker
+
+      - name: Build & push to GCR
+        run: |
+          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} .
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+            --region ${{ env.REGION }}
+```
+
+The Dockerfile exposes port `3000` and runs the SSE entry point (`dist/sse-index.js`). Cloud Run automatically provisions HTTPS for the service.
+
+#### 2. Prerequisites
+
+- Enable **Cloud Run** and **Container Registry** APIs in your GCP project.
+- Create a service account, download its JSON key, and add it as `GCP_SA_KEY` in your GitHub repo secrets.
+- Required scopes: `cloud-run`, `cloud-platform`, `container-registry`.
+
+#### 3. Note the service URL
+
+After deploying, get the Cloud Run service URL:
+
+```bash
+gcloud run services describe monowave-mcp --region us-central1 --format json | jq -r '.uri'
+```
+
+The URL will look like `https://monowave-mcp-xxxx-uc.a.run.app`. This is the endpoint your MCP client (Kilo, ChatGPT, etc.) connects to using the SSE transport.
 
 ### As a systemd service
 
@@ -107,24 +193,49 @@ npx @modelcontextprotocol/inspector node dist/index.js
 
 ### Resources
 
-The server is stateless and single-threaded — you only need to ensure the process stays running. No database, no HTTP ports, no file storage.
+The server is stateless and single-threaded. In stdio mode (default) there is no HTTP port, no database, and no file storage. In SSE mode (Cloud Run) it exposes a single HTTP port for the SSE transport — no database or file storage needed.
 
 ---
 
 ## Using with Kilo
 
-Add the server to your Kilo agent configuration (`~/.config/kilo/agent-manager.json` or equivalent):
+Kilo supports both local (stdio) and remote (SSE/HTTP) MCP servers. MCP config goes in `~/.config/kilo/kilo.json` (or the equivalent for your setup).
+
+### Option 1: Local (stdio)
+
+Run the server as a subprocess:
 
 ```json
 {
-  "mcpServers": {
+  "mcp": {
     "monowave-mcp": {
-      "command": "node",
-      "args": ["/path/to/monowave-mcp/dist/index.js"]
+      "type": "local",
+      "command": ["node", "/path/to/monowave-mcp/dist/index.js"],
+      "enabled": true
     }
   }
 }
 ```
+
+### Option 2: Remote via Cloud Run (SSE/HTTP)
+
+After deploying to Cloud Run (see Deploying to Cloud Run above), point Kilo directly at the service URL:
+
+```json
+{
+  "mcp": {
+    "monowave-mcp": {
+      "type": "remote",
+      "url": "https://monowave-mcp-xxxx-uc.a.run.app/sse",
+      "enabled": true
+    }
+  }
+}
+```
+
+Replace the URL with the one from your Cloud Run service. No local Docker or Node.js needed — Kilo connects over the internet to the Cloud Run endpoint.
+
+> Note: If your Cloud Run service requires authentication, add an `"headers"` field with an `Authorization` token. For a public/internal service, no extra config is needed.
 
 Then in Kilo, you can ask:
 
@@ -212,7 +323,9 @@ console.log(result.content[0].text);
 ```
 monowave-mcp/
 ├── src/
-│   ├── index.ts                  # MCP server entry point
+│   ├── index.ts                  # stdio entry point
+│   ├── server.ts                 # shared server factory
+│   ├── sse-index.ts              # SSE/HTTP entry point (Cloud Run)
 │   ├── config.ts                 # Constants (speed MA length, Bybit URL, etc.)
 │   ├── models/
 │   │   └── types.ts              # TS interfaces (OHLCBar, CashNode, etc.)
@@ -236,8 +349,10 @@ monowave-mcp/
 | Command           | Description                            |
 |-------------------|----------------------------------------|
 | `npm run build`   | Compile TypeScript to `dist/`          |
-| `npm start`       | Run the compiled server                |
-| `npm run dev`     | Auto-restart on source changes (tsx)   |
+| `npm start`       | Run the compiled stdio server          |
+| `npm run start:sse` | Run the compiled SSE/HTTP server     |
+| `npm run dev`     | Auto-restart stdio on source changes   |
+| `npm run dev:sse` | Auto-restart SSE on source changes     |
 | `npm run typecheck` | Type-check without emitting           |
 | `npm run test`    | Run tests (vitest)                     |
 
