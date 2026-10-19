@@ -12,12 +12,24 @@ MCP server that replicates the **Neely Cash Data — Adaptive Speed Baseline** P
 |------------|--------|------------------------------------------|--------------|
 | `symbol`   | string | Base asset name (`USDT` appended internally) | `"BTC"`      |
 | `timeframe`| string | Bybit kline interval                     | `"240"`      |
+| `format`   | string | Output format: `"csv"` (default) or `"json"` | `"csv"`    |
 
 Supported timeframes: `1`, `3`, `5`, `15`, `30`, `60`, `120`, `240`, `360`, `720`, `D`, `W`, `M`
 
 ### Output
 
-JSON with three sections:
+By default the tool returns **CSV** with one row per cash-line node:
+
+```csv
+timestamp,datetime,barIndex,price,classification,segmentPrice
+1778068800000,2026-05-06T12:00:00Z,3,44.79,,44.79
+1778169600000,2026-05-07T16:00:00Z,10,41.88,directional_down,41.88
+```
+
+- `classification` is empty for the first node (no incoming segment).
+- `segmentPrice` is the price at the end of the segment ending at this node.
+
+Pass `format: "json"` to get the full object instead:
 
 - **`nodes`** — extremum points of the cash line polyline, each with timestamp, price, bar index, and classification (the first node has `null` classification).
 - **`segments`** — edges connecting consecutive nodes, with direction (`1`/`-1`), speed (price range ÷ bars elapsed), and classification.
