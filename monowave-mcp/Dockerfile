@@ -12,4 +12,4 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY package.json ./
 EXPOSE 3000
 ENV PORT=3000
-CMD ["node", "dist/sse-index.js"]
+CMD ["node", "dist/http-index.js"]

@@ -59,15 +59,18 @@ node dist/index.js
 
 The server listens on **stdin/stdout** using the MCP stdio transport.
 
-### SSE/HTTP server (for Cloud Run)
+### HTTP server (Streamable HTTP transport, for Cloud Run)
 
 ```bash
-PORT=3000 node dist/sse-index.js
+PORT=3000 node dist/http-index.js
 ```
 
-Starts an Express HTTP server with SSE transport on port `3000`:
-- `GET /sse` — establishes the SSE stream
-- `POST /messages?sessionId=<id>` — sends messages
+Starts an Express HTTP server using the MCP **Streamable HTTP** transport on port `3000`:
+- `POST /mcp` — initialize session or send messages
+- `GET /mcp` — establish SSE stream for server-to-client messages
+- `DELETE /mcp` — terminate session
+
+This is the modern MCP HTTP transport (protocol 2025-11-25) — the deprecated `SSEServerTransport` is not used.
 
 ### Development with hot reload
 
@@ -90,11 +93,12 @@ docker compose up
 
 The server supports two transports:
 - **stdio** (default) — local subprocess, used by `node dist/index.js`
-- **SSE over HTTP** — deployed behind Cloud Run, used by `node dist/sse-index.js`
+- **Streamable HTTP** — deployed on Cloud Run, used by `node dist/http-index.js`
 
-When deployed to Cloud Run, the container starts an Express HTTP server with:
-- `GET /sse` — establishes the Server-Sent Events stream
-- `POST /messages?sessionId=<id>` — sends messages to the server
+When deployed to Cloud Run, the container starts an Express HTTP server with the MCP Streamable HTTP transport (protocol 2025-11-25):
+- `POST /mcp` — initialize session or send messages
+- `GET /mcp` — establish SSE stream for server-to-client messages
+- `DELETE /mcp` — terminate session
 
 Cloud Run manages the container as a regular HTTP service — it handles scaling, health checks, and HTTPS.
 
@@ -144,7 +148,7 @@ jobs:
             --region ${{ env.REGION }}
 ```
 
-The Dockerfile exposes port `3000` and runs the SSE entry point (`dist/sse-index.js`). Cloud Run automatically provisions HTTPS for the service.
+The Dockerfile exposes port `3000` and runs the HTTP entry point (`dist/http-index.js`). Cloud Run automatically provisions HTTPS for the service.
 
 #### 2. Prerequisites
 
@@ -160,7 +164,7 @@ After deploying, get the Cloud Run service URL:
 gcloud run services describe monowave-mcp --region us-central1 --format json | jq -r '.uri'
 ```
 
-The URL will look like `https://monowave-mcp-xxxx-uc.a.run.app`. This is the endpoint your MCP client (Kilo, ChatGPT, etc.) connects to using the SSE transport.
+The URL will look like `https://monowave-mcp-xxxx-uc.a.run.app`. This is the endpoint your MCP client (Kilo, ChatGPT, etc.) connects to using the Streamable HTTP transport. Append `/mcp` for the MCP endpoint.
 
 ### As a systemd service
 
@@ -193,13 +197,13 @@ npx @modelcontextprotocol/inspector node dist/index.js
 
 ### Resources
 
-The server is stateless and single-threaded. In stdio mode (default) there is no HTTP port, no database, and no file storage. In SSE mode (Cloud Run) it exposes a single HTTP port for the SSE transport — no database or file storage needed.
+The server is stateless and single-threaded. In stdio mode (default) there is no HTTP port, no database, and no file storage. In Streamable HTTP mode (Cloud Run) it exposes a single HTTP port — no database or file storage needed.
 
 ---
 
 ## Using with Kilo
 
-Kilo supports both local (stdio) and remote (SSE/HTTP) MCP servers. MCP config goes in `~/.config/kilo/kilo.json` (or the equivalent for your setup).
+Kilo supports both local (stdio) and remote (HTTP) MCP servers. MCP config goes in `~/.config/kilo/kilo.json` (or the equivalent for your setup).
 
 ### Option 1: Local (stdio)
 
@@ -217,7 +221,7 @@ Run the server as a subprocess:
 }
 ```
 
-### Option 2: Remote via Cloud Run (SSE/HTTP)
+### Option 2: Remote via Cloud Run (Streamable HTTP)
 
 After deploying to Cloud Run (see Deploying to Cloud Run above), point Kilo directly at the service URL:
 
@@ -226,7 +230,7 @@ After deploying to Cloud Run (see Deploying to Cloud Run above), point Kilo dire
   "mcp": {
     "monowave-mcp": {
       "type": "remote",
-      "url": "https://monowave-mcp-xxxx-uc.a.run.app/sse",
+      "url": "https://monowave-mcp-xxxx-uc.a.run.app/mcp",
       "enabled": true
     }
   }
@@ -325,7 +329,7 @@ monowave-mcp/
 ├── src/
 │   ├── index.ts                  # stdio entry point
 │   ├── server.ts                 # shared server factory
-│   ├── sse-index.ts              # SSE/HTTP entry point (Cloud Run)
+│   ├── http-index.ts              # Streamable HTTP entry point (Cloud Run)
 │   ├── config.ts                 # Constants (speed MA length, Bybit URL, etc.)
 │   ├── models/
 │   │   └── types.ts              # TS interfaces (OHLCBar, CashNode, etc.)
@@ -350,9 +354,9 @@ monowave-mcp/
 |-------------------|----------------------------------------|
 | `npm run build`   | Compile TypeScript to `dist/`          |
 | `npm start`       | Run the compiled stdio server          |
-| `npm run start:sse` | Run the compiled SSE/HTTP server     |
+| `npm run start:http` | Run the compiled Streamable HTTP server |
 | `npm run dev`     | Auto-restart stdio on source changes   |
-| `npm run dev:sse` | Auto-restart SSE on source changes     |
+| `npm run dev:http` | Auto-restart HTTP on source changes     |
 | `npm run typecheck` | Type-check without emitting           |
 | `npm run test`    | Run tests (vitest)                     |
 
