@@ -1,0 +1,832 @@
+{
+    "nodes": [
+        {
+            "timestamp": 1778068800000,
+            "barIndex": 3,
+            "price": 44.79,
+            "classification": null,
+            "segmentPrice": 44.79
+        },
+        {
+            "timestamp": 1778601600000,
+            "barIndex": 40,
+            "price": 39.84,
+            "classification": "directional_down",
+            "segmentPrice": 39.84
+        },
+        {
+            "timestamp": 1778716800000,
+            "barIndex": 48,
+            "price": 38.18,
+            "classification": "directional_down",
+            "segmentPrice": 38.18
+        },
+        {
+            "timestamp": 1779206400000,
+            "barIndex": 82,
+            "price": 48.98,
+            "classification": "directional_up",
+            "segmentPrice": 48.98
+        },
+        {
+            "timestamp": 1779235200000,
+            "barIndex": 84,
+            "price": 47.13,
+            "classification": "directional_down",
+            "segmentPrice": 47.13
+        },
+        {
+            "timestamp": 1779796800000,
+            "barIndex": 123,
+            "price": 64.79,
+            "classification": "directional_up",
+            "segmentPrice": 64.79
+        },
+        {
+            "timestamp": 1779969600000,
+            "barIndex": 135,
+            "price": 56.37,
+            "classification": "directional_down",
+            "segmentPrice": 56.37
+        },
+        {
+            "timestamp": 1780344000000,
+            "barIndex": 161,
+            "price": 75.79,
+            "classification": "directional_up",
+            "segmentPrice": 75.79
+        },
+        {
+            "timestamp": 1780516800000,
+            "barIndex": 173,
+            "price": 75.6,
+            "classification": "non_directional",
+            "segmentPrice": 75.6
+        },
+        {
+            "timestamp": 1780776000000,
+            "barIndex": 191,
+            "price": 55.51,
+            "classification": "directional_down",
+            "segmentPrice": 55.51
+        },
+        {
+            "timestamp": 1781121600000,
+            "barIndex": 215,
+            "price": 52.65,
+            "classification": "directional_down",
+            "segmentPrice": 52.65
+        },
+        {
+            "timestamp": 1781611200000,
+            "barIndex": 249,
+            "price": 76.98,
+            "classification": "directional_up",
+            "segmentPrice": 76.98
+        },
+        {
+            "timestamp": 1781712000000,
+            "barIndex": 256,
+            "price": 76.68,
+            "classification": "non_directional",
+            "segmentPrice": 76.68
+        },
+        {
+            "timestamp": 1782216000000,
+            "barIndex": 291,
+            "price": 61.63,
+            "classification": "directional_down",
+            "segmentPrice": 61.63
+        },
+        {
+            "timestamp": 1782388800000,
+            "barIndex": 303,
+            "price": 58.56,
+            "classification": "directional_down",
+            "segmentPrice": 58.56
+        },
+        {
+            "timestamp": 1782763200000,
+            "barIndex": 329,
+            "price": 67.82,
+            "classification": "directional_up",
+            "segmentPrice": 67.82
+        },
+        {
+            "timestamp": 1782950400000,
+            "barIndex": 342,
+            "price": 61.76,
+            "classification": "directional_down",
+            "segmentPrice": 61.76
+        },
+        {
+            "timestamp": 1783425600000,
+            "barIndex": 375,
+            "price": 72.97,
+            "classification": "directional_up",
+            "segmentPrice": 72.97
+        },
+        {
+            "timestamp": 1783468800000,
+            "barIndex": 378,
+            "price": 69.77,
+            "classification": "directional_down",
+            "segmentPrice": 69.77
+        },
+        {
+            "timestamp": 1783987200000,
+            "barIndex": 414,
+            "price": 62.58,
+            "classification": "directional_down",
+            "segmentPrice": 62.58
+        },
+        {
+            "timestamp": 1784116800000,
+            "barIndex": 423,
+            "price": 68.98,
+            "classification": "directional_up",
+            "segmentPrice": 68.98
+        },
+        {
+            "timestamp": 1784376000000,
+            "barIndex": 441,
+            "price": 58.23,
+            "classification": "directional_down",
+            "segmentPrice": 58.23
+        },
+        {
+            "timestamp": 1784678400000,
+            "barIndex": 462,
+            "price": 61.24,
+            "classification": "directional_up",
+            "segmentPrice": 61.24
+        },
+        {
+            "timestamp": 1785240000000,
+            "barIndex": 501,
+            "price": 54.02,
+            "classification": "directional_down",
+            "segmentPrice": 54.02
+        },
+        {
+            "timestamp": 1785456000000,
+            "barIndex": 516,
+            "price": 56.14,
+            "classification": "directional_up",
+            "segmentPrice": 56.14
+        },
+        {
+            "timestamp": 1785657600000,
+            "barIndex": 530,
+            "price": 51.15,
+            "classification": "directional_down",
+            "segmentPrice": 51.15
+        },
+        {
+            "timestamp": 1785945600000,
+            "barIndex": 550,
+            "price": 58,
+            "classification": "directional_up",
+            "segmentPrice": 58
+        },
+        {
+            "timestamp": 1786118400000,
+            "barIndex": 562,
+            "price": 53.42,
+            "classification": "directional_down",
+            "segmentPrice": 53.42
+        },
+        {
+            "timestamp": 1786492800000,
+            "barIndex": 588,
+            "price": 54.28,
+            "classification": "non_directional",
+            "segmentPrice": 54.28
+        },
+        {
+            "timestamp": 1787025600000,
+            "barIndex": 625,
+            "price": 60.49,
+            "classification": "directional_up",
+            "segmentPrice": 60.49
+        },
+        {
+            "timestamp": 1787126400000,
+            "barIndex": 632,
+            "price": 58.08,
+            "classification": "directional_down",
+            "segmentPrice": 58.08
+        },
+        {
+            "timestamp": 1787515200000,
+            "barIndex": 659,
+            "price": 83.4,
+            "classification": "directional_up",
+            "segmentPrice": 83.4
+        },
+        {
+            "timestamp": 1787846400000,
+            "barIndex": 682,
+            "price": 86.8,
+            "classification": "directional_up",
+            "segmentPrice": 86.8
+        },
+        {
+            "timestamp": 1787932800000,
+            "barIndex": 688,
+            "price": 78.6,
+            "classification": "directional_down",
+            "segmentPrice": 78.6
+        },
+        {
+            "timestamp": 1788336000000,
+            "barIndex": 716,
+            "price": 80.28,
+            "classification": "non_directional",
+            "segmentPrice": 80.28
+        },
+        {
+            "timestamp": 1788696000000,
+            "barIndex": 741,
+            "price": 89.63,
+            "classification": "directional_up",
+            "segmentPrice": 89.63
+        },
+        {
+            "timestamp": 1788969600000,
+            "barIndex": 760,
+            "price": 87.07,
+            "classification": "directional_down",
+            "segmentPrice": 87.07
+        },
+        {
+            "timestamp": 1789488000000,
+            "barIndex": 796,
+            "price": 75.19,
+            "classification": "directional_down",
+            "segmentPrice": 75.19
+        },
+        {
+            "timestamp": 1789516800000,
+            "barIndex": 798,
+            "price": 76.71,
+            "classification": "directional_up",
+            "segmentPrice": 76.71
+        },
+        {
+            "timestamp": 1790107200000,
+            "barIndex": 839,
+            "price": 97.83,
+            "classification": "directional_up",
+            "segmentPrice": 97.83
+        },
+        {
+            "timestamp": 1790136000000,
+            "barIndex": 841,
+            "price": 98.04,
+            "classification": "directional_up",
+            "segmentPrice": 98.04
+        },
+        {
+            "timestamp": 1790712000000,
+            "barIndex": 881,
+            "price": 84.9,
+            "classification": "directional_down",
+            "segmentPrice": 84.9
+        },
+        {
+            "timestamp": 1790769600000,
+            "barIndex": 885,
+            "price": 84.66,
+            "classification": "non_directional",
+            "segmentPrice": 84.66
+        },
+        {
+            "timestamp": 1791230400000,
+            "barIndex": 917,
+            "price": 95.25,
+            "classification": "directional_up",
+            "segmentPrice": 95.25
+        },
+        {
+            "timestamp": 1791331200000,
+            "barIndex": 924,
+            "price": 92.23,
+            "classification": "directional_down",
+            "segmentPrice": 92.23
+        },
+        {
+            "timestamp": 1791849600000,
+            "barIndex": 960,
+            "price": 79.49,
+            "classification": "directional_down",
+            "segmentPrice": 79.49
+        }
+    ],
+    "segments": [
+        {
+            "startTimestamp": 1778068800000,
+            "endTimestamp": 1778601600000,
+            "startBarIndex": 3,
+            "endBarIndex": 40,
+            "startPrice": 44.79,
+            "endPrice": 39.84,
+            "direction": -1,
+            "speed": 0.13378378378378367,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1778601600000,
+            "endTimestamp": 1778716800000,
+            "startBarIndex": 40,
+            "endBarIndex": 48,
+            "startPrice": 39.84,
+            "endPrice": 38.18,
+            "direction": -1,
+            "speed": 0.20750000000000046,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1778716800000,
+            "endTimestamp": 1779206400000,
+            "startBarIndex": 48,
+            "endBarIndex": 82,
+            "startPrice": 38.18,
+            "endPrice": 48.98,
+            "direction": 1,
+            "speed": 0.31764705882352934,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1779206400000,
+            "endTimestamp": 1779235200000,
+            "startBarIndex": 82,
+            "endBarIndex": 84,
+            "startPrice": 48.98,
+            "endPrice": 47.13,
+            "direction": -1,
+            "speed": 0.9249999999999972,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1779235200000,
+            "endTimestamp": 1779796800000,
+            "startBarIndex": 84,
+            "endBarIndex": 123,
+            "startPrice": 47.13,
+            "endPrice": 64.79,
+            "direction": 1,
+            "speed": 0.4528205128205129,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1779796800000,
+            "endTimestamp": 1779969600000,
+            "startBarIndex": 123,
+            "endBarIndex": 135,
+            "startPrice": 64.79,
+            "endPrice": 56.37,
+            "direction": -1,
+            "speed": 0.7016666666666674,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1779969600000,
+            "endTimestamp": 1780344000000,
+            "startBarIndex": 135,
+            "endBarIndex": 161,
+            "startPrice": 56.37,
+            "endPrice": 75.79,
+            "direction": 1,
+            "speed": 0.7469230769230772,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1780344000000,
+            "endTimestamp": 1780516800000,
+            "startBarIndex": 161,
+            "endBarIndex": 173,
+            "startPrice": 75.79,
+            "endPrice": 75.6,
+            "direction": -1,
+            "speed": 0.015833333333334327,
+            "classification": "non_directional"
+        },
+        {
+            "startTimestamp": 1780516800000,
+            "endTimestamp": 1780776000000,
+            "startBarIndex": 173,
+            "endBarIndex": 191,
+            "startPrice": 75.6,
+            "endPrice": 55.51,
+            "direction": -1,
+            "speed": 1.1161111111111108,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1780776000000,
+            "endTimestamp": 1781121600000,
+            "startBarIndex": 191,
+            "endBarIndex": 215,
+            "startPrice": 55.51,
+            "endPrice": 52.65,
+            "direction": -1,
+            "speed": 0.11916666666666664,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1781121600000,
+            "endTimestamp": 1781611200000,
+            "startBarIndex": 215,
+            "endBarIndex": 249,
+            "startPrice": 52.65,
+            "endPrice": 76.98,
+            "direction": 1,
+            "speed": 0.7155882352941179,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1781611200000,
+            "endTimestamp": 1781712000000,
+            "startBarIndex": 249,
+            "endBarIndex": 256,
+            "startPrice": 76.98,
+            "endPrice": 76.68,
+            "direction": -1,
+            "speed": 0.04285714285714245,
+            "classification": "non_directional"
+        },
+        {
+            "startTimestamp": 1781712000000,
+            "endTimestamp": 1782216000000,
+            "startBarIndex": 256,
+            "endBarIndex": 291,
+            "startPrice": 76.68,
+            "endPrice": 61.63,
+            "direction": -1,
+            "speed": 0.4300000000000001,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1782216000000,
+            "endTimestamp": 1782388800000,
+            "startBarIndex": 291,
+            "endBarIndex": 303,
+            "startPrice": 61.63,
+            "endPrice": 58.56,
+            "direction": -1,
+            "speed": 0.25583333333333336,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1782388800000,
+            "endTimestamp": 1782763200000,
+            "startBarIndex": 303,
+            "endBarIndex": 329,
+            "startPrice": 58.56,
+            "endPrice": 67.82,
+            "direction": 1,
+            "speed": 0.3561538461538458,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1782763200000,
+            "endTimestamp": 1782950400000,
+            "startBarIndex": 329,
+            "endBarIndex": 342,
+            "startPrice": 67.82,
+            "endPrice": 61.76,
+            "direction": -1,
+            "speed": 0.4661538461538458,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1782950400000,
+            "endTimestamp": 1783425600000,
+            "startBarIndex": 342,
+            "endBarIndex": 375,
+            "startPrice": 61.76,
+            "endPrice": 72.97,
+            "direction": 1,
+            "speed": 0.3396969696969697,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1783425600000,
+            "endTimestamp": 1783468800000,
+            "startBarIndex": 375,
+            "endBarIndex": 378,
+            "startPrice": 72.97,
+            "endPrice": 69.77,
+            "direction": -1,
+            "speed": 1.0666666666666675,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1783468800000,
+            "endTimestamp": 1783987200000,
+            "startBarIndex": 378,
+            "endBarIndex": 414,
+            "startPrice": 69.77,
+            "endPrice": 62.58,
+            "direction": -1,
+            "speed": 0.19972222222222216,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1783987200000,
+            "endTimestamp": 1784116800000,
+            "startBarIndex": 414,
+            "endBarIndex": 423,
+            "startPrice": 62.58,
+            "endPrice": 68.98,
+            "direction": 1,
+            "speed": 0.7111111111111117,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1784116800000,
+            "endTimestamp": 1784376000000,
+            "startBarIndex": 423,
+            "endBarIndex": 441,
+            "startPrice": 68.98,
+            "endPrice": 58.23,
+            "direction": -1,
+            "speed": 0.5972222222222227,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1784376000000,
+            "endTimestamp": 1784678400000,
+            "startBarIndex": 441,
+            "endBarIndex": 462,
+            "startPrice": 58.23,
+            "endPrice": 61.24,
+            "direction": 1,
+            "speed": 0.1433333333333336,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1784678400000,
+            "endTimestamp": 1785240000000,
+            "startBarIndex": 462,
+            "endBarIndex": 501,
+            "startPrice": 61.24,
+            "endPrice": 54.02,
+            "direction": -1,
+            "speed": 0.1851282051282051,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1785240000000,
+            "endTimestamp": 1785456000000,
+            "startBarIndex": 501,
+            "endBarIndex": 516,
+            "startPrice": 54.02,
+            "endPrice": 56.14,
+            "direction": 1,
+            "speed": 0.14133333333333317,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1785456000000,
+            "endTimestamp": 1785657600000,
+            "startBarIndex": 516,
+            "endBarIndex": 530,
+            "startPrice": 56.14,
+            "endPrice": 51.15,
+            "direction": -1,
+            "speed": 0.3564285714285716,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1785657600000,
+            "endTimestamp": 1785945600000,
+            "startBarIndex": 530,
+            "endBarIndex": 550,
+            "startPrice": 51.15,
+            "endPrice": 58,
+            "direction": 1,
+            "speed": 0.3425000000000001,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1785945600000,
+            "endTimestamp": 1786118400000,
+            "startBarIndex": 550,
+            "endBarIndex": 562,
+            "startPrice": 58,
+            "endPrice": 53.42,
+            "direction": -1,
+            "speed": 0.38166666666666654,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1786118400000,
+            "endTimestamp": 1786492800000,
+            "startBarIndex": 562,
+            "endBarIndex": 588,
+            "startPrice": 53.42,
+            "endPrice": 54.28,
+            "direction": 1,
+            "speed": 0.03307692307692305,
+            "classification": "non_directional"
+        },
+        {
+            "startTimestamp": 1786492800000,
+            "endTimestamp": 1787025600000,
+            "startBarIndex": 588,
+            "endBarIndex": 625,
+            "startPrice": 54.28,
+            "endPrice": 60.49,
+            "direction": 1,
+            "speed": 0.16783783783783787,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1787025600000,
+            "endTimestamp": 1787126400000,
+            "startBarIndex": 625,
+            "endBarIndex": 632,
+            "startPrice": 60.49,
+            "endPrice": 58.08,
+            "direction": -1,
+            "speed": 0.3442857142857148,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1787126400000,
+            "endTimestamp": 1787515200000,
+            "startBarIndex": 632,
+            "endBarIndex": 659,
+            "startPrice": 58.08,
+            "endPrice": 83.4,
+            "direction": 1,
+            "speed": 0.937777777777778,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1787515200000,
+            "endTimestamp": 1787846400000,
+            "startBarIndex": 659,
+            "endBarIndex": 682,
+            "startPrice": 83.4,
+            "endPrice": 86.8,
+            "direction": 1,
+            "speed": 0.14782608695652136,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1787846400000,
+            "endTimestamp": 1787932800000,
+            "startBarIndex": 682,
+            "endBarIndex": 688,
+            "startPrice": 86.8,
+            "endPrice": 78.6,
+            "direction": -1,
+            "speed": 1.3666666666666671,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1787932800000,
+            "endTimestamp": 1788336000000,
+            "startBarIndex": 688,
+            "endBarIndex": 716,
+            "startPrice": 78.6,
+            "endPrice": 80.28,
+            "direction": 1,
+            "speed": 0.06000000000000024,
+            "classification": "non_directional"
+        },
+        {
+            "startTimestamp": 1788336000000,
+            "endTimestamp": 1788696000000,
+            "startBarIndex": 716,
+            "endBarIndex": 741,
+            "startPrice": 80.28,
+            "endPrice": 89.63,
+            "direction": 1,
+            "speed": 0.3739999999999998,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1788696000000,
+            "endTimestamp": 1788969600000,
+            "startBarIndex": 741,
+            "endBarIndex": 760,
+            "startPrice": 89.63,
+            "endPrice": 87.07,
+            "direction": -1,
+            "speed": 0.13473684210526327,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1788969600000,
+            "endTimestamp": 1789488000000,
+            "startBarIndex": 760,
+            "endBarIndex": 796,
+            "startPrice": 87.07,
+            "endPrice": 75.19,
+            "direction": -1,
+            "speed": 0.32999999999999985,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1789488000000,
+            "endTimestamp": 1789516800000,
+            "startBarIndex": 796,
+            "endBarIndex": 798,
+            "startPrice": 75.19,
+            "endPrice": 76.71,
+            "direction": 1,
+            "speed": 0.759999999999998,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1789516800000,
+            "endTimestamp": 1790107200000,
+            "startBarIndex": 798,
+            "endBarIndex": 839,
+            "startPrice": 76.71,
+            "endPrice": 97.83,
+            "direction": 1,
+            "speed": 0.5151219512195123,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1790107200000,
+            "endTimestamp": 1790136000000,
+            "startBarIndex": 839,
+            "endBarIndex": 841,
+            "startPrice": 97.83,
+            "endPrice": 98.04,
+            "direction": 1,
+            "speed": 0.10500000000000398,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1790136000000,
+            "endTimestamp": 1790712000000,
+            "startBarIndex": 841,
+            "endBarIndex": 881,
+            "startPrice": 98.04,
+            "endPrice": 84.9,
+            "direction": -1,
+            "speed": 0.3285,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1790712000000,
+            "endTimestamp": 1790769600000,
+            "startBarIndex": 881,
+            "endBarIndex": 885,
+            "startPrice": 84.9,
+            "endPrice": 84.66,
+            "direction": -1,
+            "speed": 0.060000000000002274,
+            "classification": "non_directional"
+        },
+        {
+            "startTimestamp": 1790769600000,
+            "endTimestamp": 1791230400000,
+            "startBarIndex": 885,
+            "endBarIndex": 917,
+            "startPrice": 84.66,
+            "endPrice": 95.25,
+            "direction": 1,
+            "speed": 0.3309375000000001,
+            "classification": "directional_up"
+        },
+        {
+            "startTimestamp": 1791230400000,
+            "endTimestamp": 1791331200000,
+            "startBarIndex": 917,
+            "endBarIndex": 924,
+            "startPrice": 95.25,
+            "endPrice": 92.23,
+            "direction": -1,
+            "speed": 0.4314285714285709,
+            "classification": "directional_down"
+        },
+        {
+            "startTimestamp": 1791331200000,
+            "endTimestamp": 1791849600000,
+            "startBarIndex": 924,
+            "endBarIndex": 960,
+            "startPrice": 92.23,
+            "endPrice": 79.49,
+            "direction": -1,
+            "speed": 0.35388888888888914,
+            "classification": "directional_down"
+        }
+    ],
+    "meta": {
+        "symbol": "HYPE",
+        "timeframe": "240",
+        "barsFetched": 1000,
+        "speedMaLen": 10,
+        "speedMult": 0.2,
+        "avgSpeed": 0.334961375364224,
+        "threshold": 0.0669922750728448
+    }
+}
